@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScreenSist — AI CV Screening Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo-badge">ScreenSist</div>
+      <h1 class="app-title">ScreenSist — AI CV Screening Assistant</h1>
+      <p class="app-description">
+        Extract and compare candidate CV evidence against job requirements to support initial HR screening. HR remains the final decision maker.
+      </p>
+    </header>
+
+    <main class="main-content">
+      <form id="analyzeForm" class="input-form">
+        <div class="inputs-grid">
+          <div class="input-card">
+            <div class="input-header">
+              <label for="cvText" class="input-label">CV Text</label>
+              <span class="char-count" id="cvCharCount">0 chars</span>
+            </div>
+            <textarea
+              id="cvText"
+              name="cv_text"
+              class="form-textarea"
+              placeholder="Paste the candidate's CV text here (minimum 10 characters)..."
+              required
+              rows="10"
+            ></textarea>
+          </div>
+
+          <div class="input-card">
+            <div class="input-header">
+              <label for="jobRequirements" class="input-label">Job Requirements</label>
+              <span class="char-count" id="reqCharCount">0 chars</span>
+            </div>
+            <textarea
+              id="jobRequirements"
+              name="job_requirements"
+              class="form-textarea"
+              placeholder="Paste the job requirements and qualifications here (minimum 10 characters)..."
+              required
+              rows="10"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" id="analyzeBtn" class="btn-primary">
+            <span class="btn-text">Analyze CV</span>
+            <span class="spinner" aria-hidden="true"></span>
+          </button>
+        </div>
+      </form>
+
+      <!-- Error State -->
+      <div id="errorBox" class="alert-box error-alert" role="alert" style="display: none;">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-content">
+          <h3 class="alert-title">Analysis Error</h3>
+          <p id="errorMessage" class="alert-message"></p>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loadingIndicator" class="loading-container" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Analyzing CV against job requirements... Please wait.</p>
+      </div>
+
+      <!-- Results Display -->
+      <section id="resultsSection" class="results-section" style="display: none;">
+        <div class="results-header">
+          <h2 class="results-title">Screening Analysis Results</h2>
+          <p class="results-disclaimer">
+            This summary organizes evidence from the CV for HR review. "Requirements Not Found" indicates information absent from the CV, not candidate disqualification.
+          </p>
+        </div>
+
+        <div class="results-grid">
+          <!-- 1. Evidence Found -->
+          <div class="result-card">
+            <div class="card-header">
+              <span class="status-indicator success-indicator"></span>
+              <h3 class="card-title">Evidence Found</h3>
+            </div>
+            <p class="card-subtitle">Requirements supported by explicit evidence in the CV</p>
+            <ul id="evidenceFoundList" class="result-list"></ul>
+          </div>
+
+          <!-- 2. Requirements Not Found -->
+          <div class="result-card">
+            <div class="card-header">
+              <span class="status-indicator neutral-indicator"></span>
+              <h3 class="card-title">Requirements Not Found</h3>
+            </div>
+            <p class="card-subtitle">Mandatory requirements not explicitly documented in the CV</p>
+            <ul id="requirementsNotFoundList" class="result-list"></ul>
+          </div>
+
+          <!-- 3. Relevant Skills -->
+          <div class="result-card">
+            <div class="card-header">
+              <span class="status-indicator info-indicator"></span>
+              <h3 class="card-title">Relevant Skills</h3>
+            </div>
+            <p class="card-subtitle">Candidate skills relevant to the job requirements</p>
+            <ul id="relevantSkillsList" class="result-list"></ul>
+          </div>
+
+          <!-- 4. Relevant Experience -->
+          <div class="result-card">
+            <div class="card-header">
+              <span class="status-indicator info-indicator"></span>
+              <h3 class="card-title">Relevant Experience</h3>
+            </div>
+            <p class="card-subtitle">Candidate experience or projects related to the role</p>
+            <ul id="relevantExperienceList" class="result-list"></ul>
+          </div>
+
+          <!-- 5. Clarification Questions -->
+          <div class="result-card full-width">
+            <div class="card-header">
+              <span class="status-indicator query-indicator"></span>
+              <h3 class="card-title">Clarification Questions</h3>
+            </div>
+            <p class="card-subtitle">Recommended questions for HR to clarify unconfirmed or ambiguous points</p>
+            <ul id="clarificationQuestionsList" class="result-list"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>ScreenSist &bull; Human-in-the-Loop Initial CV Screening Assistant</p>
+    </footer>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

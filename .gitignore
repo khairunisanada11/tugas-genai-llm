@@ -1,0 +1,8 @@
+.venv/
+.env
+__pycache__/
+
+
+PRD.md
+DESIGN.md
+ImplementationPlan.md
